@@ -20,34 +20,22 @@
 
 (function( $ ){
 
-  var d = '[data-dropdown]'
-
-  /* DROPDOWN PLUGIN DEFINITION
-   * ========================== */
-
-  $.fn.dropdown = function () {
-    return this.each(function () {
-      $(this).delegate(d, 'click', function (e) {
-        var li = $(this).parent('li')
-          , isActive = li.hasClass('open')
-
-        clearMenus()
-        !isActive && li.toggleClass('open')
-        return false
-      })
-    })
-  }
-
   /* APPLY TO STANDARD DROPDOWN ELEMENTS
    * =================================== */
 
   function clearMenus() {
-    $(d).parent('li').removeClass('open')
+    $(selector).parent('li').removeClass('open')
   }
 
   $(function () {
     $('html').bind("click", clearMenus)
-    $('body').dropdown()
+    $('body').delegate('[data-dropdown]', 'click', function (e) {
+      var li = $(this).parent('li')
+        , isActive = li.hasClass('open')
+      clearMenus()
+      !isActive && li.toggleClass('open')
+      return false
+    })
   })
 
 })( window.jQuery || window.ender )
