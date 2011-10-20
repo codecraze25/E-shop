@@ -1,5 +1,5 @@
 /* ============================================================
- * bootstrap-dropdown.js v1.3.0
+ * bootstrap-dropdown.js v2.0.0
  * http://twitter.github.com/bootstrap/javascript.html#dropdown
  * ============================================================
  * Copyright 2011 Twitter, Inc.
@@ -20,34 +20,23 @@
 
 (function( $ ){
 
-  var d = '[data-dropdown]'
-
-  /* DROPDOWN PLUGIN DEFINITION
-   * ========================== */
-
-  $.fn.dropdown = function () {
-    return this.each(function () {
-      $(this).delegate(d, 'click', function (e) {
-        var li = $(this).parent('li')
-          , isActive = li.hasClass('open')
-
-        clearMenus()
-        !isActive && li.toggleClass('open')
-        return false
-      })
-    })
-  }
-
   /* APPLY TO STANDARD DROPDOWN ELEMENTS
    * =================================== */
+  var selector = '[data-dropdown]'
 
   function clearMenus() {
-    $(d).parent('li').removeClass('open')
+    $(selector).parent('li').removeClass('open')
   }
 
   $(function () {
     $('html').bind("click", clearMenus)
-    $('body').dropdown()
+    $('body').delegate(selector, 'click', function (e) {
+      var li = $(this).parent('li')
+        , isActive = li.hasClass('open')
+      clearMenus()
+      !isActive && li.toggleClass('open')
+      return false
+    })
   })
 
 })( window.jQuery || window.ender )
