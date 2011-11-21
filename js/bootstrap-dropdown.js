@@ -1,5 +1,5 @@
 /* ============================================================
- * bootstrap-dropdown.js v2.0.0
+ * bootstrap-dropdown.js v1.4.0
  * http://twitter.github.com/bootstrap/javascript.html#dropdown
  * ============================================================
  * Copyright 2011 Twitter, Inc.
@@ -18,25 +18,38 @@
  * ============================================================ */
 
 
-(function( $ ){
+!function( $ ){
+
+  "use strict"
+
+  /* DROPDOWN PLUGIN DEFINITION
+   * ========================== */
+
+  $.fn.dropdown = function ( selector ) {
+    return this.each(function () {
+      $(this).delegate(selector || d, 'click', function (e) {
+        var li = $(this).parent('li')
+          , isActive = li.hasClass('open')
+
+        clearMenus()
+        !isActive && li.toggleClass('open')
+        return false
+      })
+    })
+  }
 
   /* APPLY TO STANDARD DROPDOWN ELEMENTS
    * =================================== */
-  var selector = '[data-dropdown]'
+
+  var d = 'a.menu, .dropdown-toggle'
 
   function clearMenus() {
-    $(selector).parent('li').removeClass('open')
+    $(d).parent('li').removeClass('open')
   }
 
   $(function () {
     $('html').bind("click", clearMenus)
-    $('body').delegate(selector, 'click', function (e) {
-      var li = $(this).parent('li')
-        , isActive = li.hasClass('open')
-      clearMenus()
-      !isActive && li.toggleClass('open')
-      return false
-    })
+    $('body').dropdown( '[data-dropdown] a.menu, [data-dropdown] .dropdown-toggle' )
   })
 
-})( window.jQuery || window.ender )
+}( window.jQuery || window.ender );
